@@ -5,65 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Калькулятор бетонной смеси</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.2rem;
-      box-sizing: border-box;
-    }
-    button {
-      margin-top: 1.5rem;
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .result {
-      margin-top: 2rem;
-      background: #f9f9f9;
-      padding: 1rem;
-      border-left: 5px solid #007BFF;
-    }
-    .hidden {
-      display: none;
-    }
-    .dimensions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .dimensions > div {
-      flex: 1;
-      min-width: 120px;
-    }
-  </style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 2rem;
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+  }
+  h1 {
+    text-align: center;
+    color: #ffffff;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #2d2d2d;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+    color: #ccc;
+  }
+  input, select, button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.2rem;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: none;
+    font-size: 1rem;
+  }
+  input, select {
+    background-color: #444;
+    color: #fff;
+  }
+  input::placeholder {
+    color: #888;
+  }
+  .dimensions input {
+    background-color: #3a3a3a;
+    color: #fff;
+  }
+  .dimensions label {
+    color: #bbb;
+  }
+  button {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .result {
+    margin-top: 2rem;
+    background-color: #3a3a3a;
+    padding: 1rem;
+    border-left: 5px solid #007BFF;
+    color: #f0f0f0;
+    border-radius: 4px;
+  }
+  .hidden {
+    display: none;
+  }
+  .dimensions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .dimensions > div {
+    flex: 1;
+    min-width: 120px;
+  }
+</style>
 </head>
 <body>
 
