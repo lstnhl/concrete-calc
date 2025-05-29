@@ -146,6 +146,7 @@
     const mode = document.getElementById("mode").value;
     document.getElementById("inputByVolume").classList.toggle("hidden", mode === "cement");
     document.getElementById("inputByCement").classList.toggle("hidden", mode === "volume");
+    document.getElementById("results").innerHTML = '';
   }
 
   function calculateVolume() {
