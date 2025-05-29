@@ -18,10 +18,8 @@
   .container {
     max-width: 600px;
     margin: auto;
-    background-color: #2d2d2d;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    background-color: transparent;
+    padding: 1rem;
   }
   label {
     display: block;
@@ -52,6 +50,8 @@
     color: #bbb;
   }
   button {
+    margin-top: 2rem;
+    height: 60px;
     background-color: #007BFF;
     color: white;
     cursor: pointer;
@@ -90,7 +90,7 @@
   <!-- Выбор режима -->
   <label for="mode">Выберите режим:</label>
   <select id="mode" onchange="toggleInputs()">
-    <option value="volume">По размерам конструкции</option>
+    <option value="volume">По размерам</option>
     <option value="cement">По массе цемента</option>
   </select>
 
@@ -202,7 +202,6 @@
         <h3>Результаты:</h3>
         <p><strong>Объём смеси:</strong> ${volumeConcrete.toFixed(4)} м³</p>
         <p><strong>Масса смеси:</strong> ${massTotal.toFixed(2)} кг</p>
-        <p><strong>Плотность смеси:</strong> ${mixDensity.toFixed(2)} кг/м³</p>
         <p><strong>Цемент:</strong> ${massCement.toFixed(2)} кг</p>
         <p><strong>Песок:</strong> ${massSand.toFixed(2)} кг</p>
         <p><strong>Щебень:</strong> ${massGravel.toFixed(2)} кг</p>
@@ -231,7 +230,6 @@
         <h3>Результаты:</h3>
         <p><strong>Объём бетона:</strong> ${volumeConcrete.toFixed(4)} м³</p>
         <p><strong>Масса смеси:</strong> ${massTotal.toFixed(2)} кг</p>
-        <p><strong>Плотность смеси:</strong> ${mixDensity.toFixed(2)} кг/м³</p>
         <p><strong>Песок:</strong> ${massSand.toFixed(2)} кг</p>
         <p><strong>Щебень:</strong> ${massGravel.toFixed(2)} кг</p>
         <p><strong>Вода:</strong> ${massWater.toFixed(2)} литров</p>
