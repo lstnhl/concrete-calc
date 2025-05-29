@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Калькулятор бетонной смеси</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.2rem;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 2rem;
+      background: #f9f9f9;
+      padding: 1rem;
+      border-left: 5px solid #007BFF;
+    }
+    .hidden {
+      display: none;
+    }
+    .dimensions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .dimensions > div {
+      flex: 1;
+      min-width: 120px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Калькулятор бетонной смеси</h1>
+
+  <!-- Выбор режима -->
+  <label for="mode">Выберите режим:</label>
+  <select id="mode" onchange="toggleInputs()">
+    <option value="volume">По размерам конструкции</option>
+    <option value="cement">По массе цемента</option>
+  </select>
+
+  <!-- Ввод по размерам -->
+  <div id="inputByVolume">
+    <div class="dimensions">
+      <div>
+        <label for="width">Ширина (м):</label>
+        <input type="number" id="width" value="0.5" step="0.01" oninput="calculateVolume()" />
+      </div>
+      <div>
+        <label for="depth">Глубина (м):</label>
+        <input type="number" id="depth" value="0.5" step="0.01" oninput="calculateVolume()" />
+      </div>
+      <div>
+        <label for="height">Высота (м):</label>
+        <input type="number" id="height" value="0.18" step="0.01" oninput="calculateVolume()" />
+      </div>
+      <div style="flex: 1 1 100%;">
+        <label>Объём = <b id="calculatedVolume"></b> <b>м³</b></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ввод по массе цемента -->
+  <div id="inputByCement" class="hidden">
+    <label for="massCement">Масса цемента (кг):</label>
+    <input type="number" id="massCement" value="12" step="0.1" />
+  </div>
+
+  <!-- Пропорции -->
+  <label for="cementRatio">Цемент (части):</label>
+  <input type="number" id="cementRatio" value="1" step="0.1" />
+
+  <label for="sandRatio">Песок (части):</label>
+  <input type="number" id="sandRatio" value="3" step="0.1" />
+
+  <label for="gravelRatio">Щебень (части):</label>
+  <input type="number" id="gravelRatio" value="4.8" step="0.1" />
+
+  <label for="waterRatio">Вода (части):</label>
+  <input type="number" id="waterRatio" value="0.5" step="0.1" />
+
+  <!-- Кнопка -->
+  <button onclick="calculate()">Рассчитать</button>
+
+  <!-- Результат -->
+  <div class="result" id="results"></div>
+</div>
+
+<script>
+  function toggleInputs() {
+    const mode = document.getElementById("mode").value;
+    document.getElementById("inputByVolume").classList.toggle("hidden", mode === "cement");
+    document.getElementById("inputByCement").classList.toggle("hidden", mode === "volume");
+  }
+
+  function calculateVolume() {
+    const width = parseFloat(document.getElementById("width").value) || 0;
+    const depth = parseFloat(document.getElementById("depth").value) || 0;
+    const height = parseFloat(document.getElementById("height").value) || 0;
+
+    const volume = width * depth * height;
+    document.getElementById("calculatedVolume").innerHTML = volume.toFixed(4);
+  }
+
+  function calculate() {
+    const mode = document.getElementById("mode").value;
+
+    const cementRatio = parseFloat(document.getElementById("cementRatio").value);
+    const sandRatio = parseFloat(document.getElementById("sandRatio").value);
+    const gravelRatio = parseFloat(document.getElementById("gravelRatio").value);
+    const waterRatio = parseFloat(document.getElementById("waterRatio").value);
+
+    // Плотности материалов (кг/м³)
+    const densities = {
+      цемент: 1100,
+      песок: 1500,
+      щебень: 1400,
+      вода: 1000
+    };
+
+    let massCement, volumeConcrete;
+
+    if (mode === "volume") {
+      calculateVolume(); // обновляем значение объёма
+      const volume = parseFloat(document.getElementById("calculatedVolume").innerHTML) || 0;
+      const concreteDensity = 2400; // кг/м³
+      const totalParts = cementRatio + sandRatio + gravelRatio + waterRatio;
+
+      const massTotal = volume * concreteDensity;
+      const partMass = massTotal / totalParts;
+
+      massCement = cementRatio * partMass;
+      const massSand = sandRatio * partMass;
+      const massGravel = gravelRatio * partMass;
+      const massWater = waterRatio * partMass;
+
+      const volCement = massCement / densities.цемент;
+      const volSand = massSand / densities.песок;
+      const volGravel = massGravel / densities.щебень;
+      const volWater = massWater / densities.вода;
+
+      volumeConcrete = volCement + volSand + volGravel + volWater;
+      const mixDensity = massTotal / volumeConcrete;
+
+      const resultHTML = `
+        <h3>Результаты:</h3>
+        <p><strong>Объём смеси:</strong> ${volumeConcrete.toFixed(4)} м³</p>
+        <p><strong>Масса смеси:</strong> ${massTotal.toFixed(2)} кг</p>
+        <p><strong>Плотность смеси:</strong> ${mixDensity.toFixed(2)} кг/м³</p>
+        <p><strong>Цемент:</strong> ${massCement.toFixed(2)} кг</p>
+        <p><strong>Песок:</strong> ${massSand.toFixed(2)} кг</p>
+        <p><strong>Щебень:</strong> ${massGravel.toFixed(2)} кг</p>
+        <p><strong>Вода:</strong> ${massWater.toFixed(2)} литров</p>
+      `;
+      document.getElementById("results").innerHTML = resultHTML;
+
+    } else if (mode === "cement") {
+      massCement = parseFloat(document.getElementById("massCement").value);
+      const partMass = massCement / cementRatio;
+
+      const massSand = sandRatio * partMass;
+      const massGravel = gravelRatio * partMass;
+      const massWater = waterRatio * partMass;
+
+      const volCement = massCement / densities.цемент;
+      const volSand = massSand / densities.песок;
+      const volGravel = massGravel / densities.щебень;
+      const volWater = massWater / densities.вода;
+
+      volumeConcrete = volCement + volSand + volGravel + volWater;
+      const massTotal = massCement + massSand + massGravel + massWater;
+      const mixDensity = massTotal / volumeConcrete;
+
+      const resultHTML = `
+        <h3>Результаты:</h3>
+        <p><strong>Объём бетона:</strong> ${volumeConcrete.toFixed(4)} м³</p>
+        <p><strong>Масса смеси:</strong> ${massTotal.toFixed(2)} кг</p>
+        <p><strong>Плотность смеси:</strong> ${mixDensity.toFixed(2)} кг/м³</p>
+        <p><strong>Песок:</strong> ${massSand.toFixed(2)} кг</p>
+        <p><strong>Щебень:</strong> ${massGravel.toFixed(2)} кг</p>
+        <p><strong>Вода:</strong> ${massWater.toFixed(2)} литров</p>
+      `;
+      document.getElementById("results").innerHTML = resultHTML;
+    }
+
+    // Прокрутка к результату
+    document.getElementById("results").scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Инициализация объёма при загрузке
+  window.onload = calculateVolume;
+</script>
+
+</body>
+</html>
